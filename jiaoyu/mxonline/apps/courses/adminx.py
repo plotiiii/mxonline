@@ -7,7 +7,7 @@
 @Software: PyCharm
 """
 import xadmin
-from apps.courses.models import Course
+from apps.courses.models import Course,Lesson,Video,CourseResource
 
 
 class CoursesAadmin():

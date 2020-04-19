@@ -17,7 +17,10 @@ class CourseOrgAadmin(object):
     pass
 
 class CityAadmin(object):
-    pass
+    list_display = ['id','name','desc']
+    search_fields = ['name','desc']
+    list_filter = ['name','desc','add_time']
+    list_editable = ['name','desc']
 
 
 
