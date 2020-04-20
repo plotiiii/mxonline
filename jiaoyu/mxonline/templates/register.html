@@ -91,7 +91,7 @@
                             <input id="jsRegMobile" name="mobile" type="text" placeholder="请输入您的手机号码">
                         </div>
                         <div class="form-group marb20 blur" id="jsRefreshCode">
-                            <img src="/captcha/image/5b0fe7811ef645d9cb94cc7af579e855ec49819a/" alt="captcha" class="captcha" />
+                            {{ register_get_form.captcha }}
 <input type="hidden" name="captcha_0" value="5b0fe7811ef645d9cb94cc7af579e855ec49819a" required id="id_captcha_0"><input type="text" name="captcha_1" required id="id_captcha_1" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
                         </div>
                         <div class="clearfix">
@@ -111,7 +111,7 @@
                     <input type="hidden" name="csrfmiddlewaretoken" value="r20XuUA2E7Aw0becQXwBbl57JQLgmKXrBBLY1FlPzoKyjZxXrwHVn9cvfwDxXFco">
                     </form>
                 </div>
-                <p class="form-p">已有账号？<a href="http://192.168.43.243:8000/login/">[立即登录]</a></p>
+                <p class="form-p">已有账号？<a href={% url 'login' %}>[立即登录]</a></p>
             </div>
         </div>
     </div>
