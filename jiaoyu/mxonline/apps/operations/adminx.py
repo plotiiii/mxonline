@@ -8,7 +8,7 @@
 """
 import xadmin
 
-from apps.operation.models import UserAsk, CourseComments, UserCourse, UserFavorite, UserMessage
+from apps.operations.models import UserAsk, CourseComments, UserCourse, UserFavorite, UserMessage
 
 
 class UserAskAdmin(object):
