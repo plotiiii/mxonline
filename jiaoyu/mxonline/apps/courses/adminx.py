@@ -7,8 +7,10 @@
 @Software: PyCharm
 """
 import xadmin
-from xadmin import views
-from apps.courses.models import Course, Lesson, Video, CourseResource,CourseTag
+
+from apps.courses.models import Course, Lesson, Video, CourseResource, CourseTag
+from xadmin.layout import Fieldset, Main, Side, Row,FormActions
+from import_export import resources
 
 
 class GlobalSettings(object):
@@ -26,6 +28,58 @@ class CourseAdmin(object):
     search_fields = ['name', 'desc', 'detail', 'degree', 'students']
     list_filter = ['name', 'teacher__name', 'desc', 'detail', 'degree', 'learn_times', 'students']
     list_editable = ["degree", "desc"]
+
+#固定的ip
+#1. 本地的ip是一个动态分配的ip地址
+#2. 数据包转发问题 scp
+class NewCourseAdmin(object):
+    # import_export_args = {'import_resource_class': MyResource, 'export_resource_class': MyResource}
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'teacher']
+    search_fields = ['name', 'desc', 'detail', 'degree', 'students']
+    list_filter = ['name', 'teacher__name', 'desc', 'detail', 'degree', 'learn_times', 'students']
+    list_editable = ["degree", "desc"]
+    # readonly_fields = ["students", "add_time"]
+    # exclude = ["click_nums", "fav_nums"]
+    # ordering = ["click_nums"]
+    # model_icon = 'fa fa-address-book'
+    # inlines = [LessonInline, CourseResourceInline]
+    # style_fields = {
+    #     "detail":"ueditor"
+    # }
+
+    # def queryset(self):
+    #     qs = super().queryset()
+    #     if not self.request.user.is_superuser:
+    #         qs = qs.filter(teacher=self.request.user.teacher)
+    #     return qs
+
+    def get_form_layout(self):
+        if self.org_obj:
+            self.form_layout = (
+                    Main(
+                        Fieldset("讲师信息",
+                                 'teacher','course_org',
+                                 css_class='unsort no_title'
+                                 ),
+                        Fieldset("基本信息",
+                                 'name', 'desc',
+                                 Row('learn_times', 'degree'),
+                                 Row('category', 'tag'),
+                                 'youneed_know', 'teacher_tell', 'detail',
+                                 ),
+                    ),
+                    Side(
+                        Fieldset("访问信息",
+                                 'fav_nums', 'click_nums', 'students','add_time'
+                                 ),
+                    ),
+                    Side(
+                        Fieldset("选择信息",
+                                 'is_banner', 'is_classics'
+                                 ),
+                    )
+            )
+        return super(NewCourseAdmin, self).get_form_layout()
 
 
 class LessonAdmin(object):
@@ -50,7 +104,8 @@ class CourseTagAdmin(object):
     search_fields = ['course', 'tag']
     list_filter = ['course', 'tag','add_time']
 
-xadmin.site.register(Course, CourseAdmin)
+# xadmin.site.register(Course, CourseAdmin)
+xadmin.site.register(Course, NewCourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(CourseResource, CourseResourceAdmin)
